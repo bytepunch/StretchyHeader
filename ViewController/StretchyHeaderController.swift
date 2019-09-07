@@ -18,20 +18,26 @@ class StretchyHeaderController: UICollectionViewController, UICollectionViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // custom code for collection view
-        
-        // layout customization
-        if let layout = collectionViewLayout as? UICollectionViewFlowLayout{
-            layout.sectionInset = .init(top: 0, left: padding, bottom: 0, right: padding)
-        }
-        
+        setupCollectionViewLayout()
+        setupCollectionView()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle{
+        return .lightContent
+    }
+    
+    fileprivate func setupCollectionView() {
         collectionView.backgroundColor = .white
-        
+        collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-        
         collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
     }
     
+    fileprivate func setupCollectionViewLayout() {
+        if let layout = collectionViewLayout as? UICollectionViewFlowLayout{
+            layout.sectionInset = .init(top: 0, left: padding, bottom: 0, right: padding)
+        }
+    }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
